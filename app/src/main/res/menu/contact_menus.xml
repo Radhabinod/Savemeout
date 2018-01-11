@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/selectAll"
+        android:icon="@android:drawable/checkbox_on_background"
+        android:title="Select all"
+        app:showAsAction="always"></item>
+    <item
+        android:id="@+id/unSelectAll"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:title="Cancel"
+        app:showAsAction="always"></item>
+
+    <item
+        android:id="@+id/menuSend"
+        android:icon="@android:drawable/ic_menu_send"
+        android:title="Send"
+        app:showAsAction="always"></item>
+
+</menu>
