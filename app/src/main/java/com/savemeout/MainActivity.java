@@ -7,14 +7,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.savemeout.alertscreen.AlertActivity;
 import com.savemeout.contacts.ContactList;
+import com.savemeout.voicetotext.WakeUp;
 
 import java.util.ArrayList;
 
@@ -27,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     Button btnContact;
     @BindView(R.id.btnDialog)
     Button btnDialog;
+    @BindView(R.id.btnVoiceRecog)
+    Button btnVoiceRecog;
+    String[] permissions = {android.Manifest.permission.SEND_SMS};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +51,18 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnDialog)
     public void goToFullScreeDialog() {
-       // startActivity(new Intent(this, AlertActivity.class));
+        // startActivity(new Intent(this, AlertActivity.class));
+        if (hasPermissions(permissions)) {
+            sendSms();
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, 1);
+            return;
+        }
+    }
 
-        sendSms();
+    @OnClick(R.id.btnVoiceRecog)
+    public void voiceRecog() {
+        startActivity(new Intent(this, WakeUp.class));
     }
 
     private void sendSms() {
@@ -102,4 +120,32 @@ public class MainActivity extends AppCompatActivity {
 // Send a text based SMS
         smsManager.sendTextMessage(phoneNumber, null, smsBody, sentPendingIntent, deliveredPendingIntent);
     }
+
+    boolean hasPermissions(String[] perms) {
+        for (int i = 0; i < perms.length; i++) {
+            int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), perms[i]);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1) {
+            if (hasPermissions(permissions)) {
+                Log.e("has", "true");
+                // Recognizer initialization is a time-consuming and it involves IO,
+                // so we execute it in async task
+                sendSms();
+            } else {
+                finish();
+            }
+        }
+    }
+
 }
