@@ -56,7 +56,7 @@ public class ContactList extends AppCompatActivity implements ContactAdapter.Con
     ImageView ivAddContact;
     String[] arReletions = {"Parent", "Brother", "Sister", "Friend", "Other"};
     Menu menu;
-    MenuItem item2,itemSend;
+    MenuItem item2, itemSend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,13 +109,14 @@ public class ContactList extends AppCompatActivity implements ContactAdapter.Con
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.unSelectAll)
-        {
+        if (item.getItemId() == R.id.unSelectAll) {
             adapter.cancelSelection();
             item2.setVisible(false);
             itemSend.setVisible(false);
-        }
+        } else if (item.getItemId() == R.id.menuSend) {
 
+
+        }
         return true;
     }
 
@@ -162,7 +163,7 @@ public class ContactList extends AppCompatActivity implements ContactAdapter.Con
                                 ContactsContract.CommonDataKinds.Phone.NUMBER));
                         hashData.put(Constants.PHONE_NUMBER, phoneNo);
                         hashData.put(Constants.CONTACT_NAME, name);
-                        hashData.put(Constants.CHECK_NO_SELECT,"false");
+                        hashData.put(Constants.CHECK_NO_SELECT, "false");
                         alContacts.add(hashData);
                         Log.i(TAG, "Name: " + name);
                         Log.i(TAG, "Phone Number: " + phoneNo);
@@ -319,13 +320,12 @@ public class ContactList extends AppCompatActivity implements ContactAdapter.Con
 
     @Override
     public void onBackPressed() {
-        if(item2!=null&&item2.isVisible())
-        {
+        if (item2 != null && item2.isVisible()) {
             adapter.cancelSelection();
             item2.setVisible(false);
             itemSend.setVisible(false);
             return;
-        }else {
+        } else {
             super.onBackPressed();
         }
     }

@@ -3,6 +3,7 @@ package com.savemeout.contacts;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class ContactAdapter extends RecyclerView.Adapter {
     ArrayList<HashMap<String, String>> alSelected = new ArrayList<HashMap<String, String>>();
     int count = 0;
     Context context;
+    int totalCount = 3;
 
     public ContactAdapter(ContactList context, ArrayList<HashMap<String, String>> alContacts) {
         alData = alContacts;
@@ -62,17 +64,57 @@ public class ContactAdapter extends RecyclerView.Adapter {
             public boolean onLongClick(View v) {
                 if (!isLongPressON) {
                     isLongPressON = true;
-                    hashData.put(Constants.CHECK_NO_SELECT, true + "");
-                    count++;
-                    alData.set(position, hashData);
                     notifyDataSetChanged();
                     listener.onLongPress();
                 }
                 return false;
             }
         });
+
+
+        mHolder.cMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                mHolder.checkBox.performClick();
+
+
+            }
+        });
+        mHolder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isLongPressON) {
+                    Log.e("pressed", "presses" + mHolder.checkBox.isChecked() + count);
+                    if (mHolder.checkBox.isChecked()) {
+                        if (count < totalCount) {
+                            hashData.put(Constants.CHECK_NO_SELECT, true + "");
+                            mHolder.checkBox.setChecked(true);
+                            count++;
+                        } else {
+                            Toast.makeText(context, "can not send more than 3 contacts!", Toast.LENGTH_SHORT).show();
+                            mHolder.checkBox.setChecked(false);
+                            mHolder.checkBox.setEnabled(false);
+                        }
+                    } else {
+
+                        if (count > 0) {
+                            hashData.put(Constants.CHECK_NO_SELECT, false + "");
+                            mHolder.checkBox.setChecked(false);
+                            count--;
+                        }
+
+                    }
+                    alData.set(position, hashData);
+                }
+
+            }
+        });
+
         if (isLongPressON) {
             mHolder.checkBox.setVisibility(View.VISIBLE);
+            Log.e("checkbox_vwlueee", hashData.get(Constants.CHECK_NO_SELECT) + "");
             if (hashData.get(Constants.CHECK_NO_SELECT).equals("true")) {
                 mHolder.checkBox.setChecked(true);
             } else {
@@ -81,39 +123,19 @@ public class ContactAdapter extends RecyclerView.Adapter {
         } else {
             mHolder.checkBox.setVisibility(View.GONE);
         }
-        mHolder.cMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // mHolder.checkBox.performClick();
-                if (isLongPressON) {
-                    if (count <= 5) {
-                        if (mHolder.checkBox.isChecked()) {
-                            mHolder.checkBox.setChecked(false);
-                            hashData.put(Constants.CHECK_NO_SELECT, false + "");
-                            count--;
-                        } else {
-                            hashData.put(Constants.CHECK_NO_SELECT, true + "");
-                            mHolder.checkBox.setChecked(true);
-                            count++;
-                        }
-                    }
-                } else {
-                    Toast.makeText(context, "Can not send more than 5 contacts!", Toast.LENGTH_SHORT).show();
-                }
 
-            }
-        });
-        mHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-            }
-        });
     }
 
     @Override
     public long getItemId(int position) {
-        return super.getItemId(position);
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+
     }
 
     public String replaceNull(String text) {
@@ -148,23 +170,6 @@ public class ContactAdapter extends RecyclerView.Adapter {
     }
 
 
-    void search(String keyword, ArrayList<HashMap<String, String>> alOldData) {
-        ArrayList<HashMap<String, String>> alResult = new ArrayList<>();
-        for (HashMap<String, String> res :
-                alOldData) {
-            if (res.get(Constants.PHONE_NUMBER).toLowerCase().contains(keyword.toLowerCase()) || res.get(Constants.CONTACT_NAME).toLowerCase().contains(keyword.toLowerCase())) {
-                alResult.add(res);
-            }
-        }
-        alData.clear();
-        for (HashMap<String, String> res :
-                alResult) {
-            alData.add(res);
-        }
-
-        notifyDataSetChanged();
-    }
-
     public void filter(String keyword) {
         keyword = keyword.toLowerCase(Locale.getDefault());
         alData.clear();
@@ -187,7 +192,7 @@ public class ContactAdapter extends RecyclerView.Adapter {
             hash.put(Constants.CHECK_NO_SELECT, false + "");
             alData.set(i, hash);
         }
-        count=0;
+        count = 0;
         notifyDataSetChanged();
     }
 
