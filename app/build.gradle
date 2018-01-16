@@ -30,6 +30,10 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterknifeVersion"
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.2'
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterknifeVersion"
+    compile "com.google.dagger:dagger:$rootProject.daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    provided 'org.glassfish:javax.annotation:10.0-b28' //Required by Dagger2
     implementation project(':pocketsphinx-android-5prealpha-release')
 }
 ant.importBuild 'assets.xml'

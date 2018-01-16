@@ -1,34 +1,30 @@
-package com.savemeout;
+package com.savemeout.ui.mainscreen;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.savemeout.alertscreen.AlertActivity;
-import com.savemeout.contacts.ContactList;
-import com.savemeout.voicetotext.WakeUp;
 
-import java.util.ArrayList;
+import com.savemeout.R;
+import com.savemeout.ui.base.BaseActivity;
+import com.savemeout.ui.contacts.ContactListActivity;
+import com.savemeout.ui.voicetotext.VoiceRecognitionActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     @BindView(R.id.btnContact)
     Button btnContact;
     @BindView(R.id.btnDialog)
@@ -46,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnContact)
     public void goToContact() {
-        startActivity(new Intent(this, ContactList.class));
+        startActivity(new Intent(this, ContactListActivity.class));
     }
 
     @OnClick(R.id.btnDialog)
@@ -62,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnVoiceRecog)
     public void voiceRecog() {
-        startActivity(new Intent(this, WakeUp.class));
+        startActivity(new Intent(this, VoiceRecognitionActivity.class));
     }
 
     private void sendSms() {
@@ -121,15 +117,6 @@ public class MainActivity extends AppCompatActivity {
         smsManager.sendTextMessage(phoneNumber, null, smsBody, sentPendingIntent, deliveredPendingIntent);
     }
 
-    boolean hasPermissions(String[] perms) {
-        for (int i = 0; i < perms.length; i++) {
-            int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), perms[i]);
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,

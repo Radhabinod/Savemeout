@@ -1,4 +1,4 @@
-package com.savemeout.contacts;
+package com.savemeout.ui.contacts;
 
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +37,7 @@ public class ContactAdapter extends RecyclerView.Adapter {
     Context context;
     int totalCount = 3;
 
-    public ContactAdapter(ContactList context, ArrayList<HashMap<String, String>> alContacts) {
+    public ContactAdapter(ContactListActivity context, ArrayList<HashMap<String, String>> alContacts) {
         alData = alContacts;
         alResult.addAll(alData);
         listener = context;

@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.savemeout.R;
 import com.savemeout.utils.Constants;
-import com.savemeout.voicetotext.WakeUp;
+import com.savemeout.ui.voicetotext.VoiceRecognitionActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -410,7 +410,7 @@ public class CommonVoiceListenerService extends Service implements
     }
 
     void showNotification() {
-        Intent notificationIntent = new Intent(this, WakeUp.class);
+        Intent notificationIntent = new Intent(this, VoiceRecognitionActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,

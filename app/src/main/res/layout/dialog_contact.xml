@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="16dp"
-    tools:context="com.savemeout.alertscreen.AlertActivity">
+    tools:context=".ui.alertscreen.AlertActivity">
 
     <EditText
         android:id="@+id/etName"

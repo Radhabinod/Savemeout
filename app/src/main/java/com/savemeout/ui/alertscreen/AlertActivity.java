@@ -1,21 +1,9 @@
-package com.savemeout.alertscreen;
+package com.savemeout.ui.alertscreen;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
 
 import com.savemeout.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class AlertActivity extends AppCompatActivity {
 
